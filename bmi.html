@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BMI Calculator</title>
+    <link rel="stylesheet" href="/bmistyle.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">cal.diet </div>
+          <ul>
+            <li><a href="/">Home</a></li>
+          </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="home" class="hero">
+        <figure>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmt8fqKWx_75eUMX7L3Y7QBlfrUVin1aEdJg&s" alt="Trulli" style="width:100%">
+          <figcaption>Body Mass Index</figcaption>
+        </figure>
+        <h1>Calculator</h1>
+        <p>Body Mass Index (BMI) is a screening tool that estimates body fat by dividing weight in kilograms by height in meters squared. It categorizes adults into underweight (<18.5), healthy weight (18.5–24.9), overweight (25–29.9), or obese (30+) ranges to assess potential health risks.</p>
+        <!-- <button id="greet-btn">Say Hello</button> -->
+        <p id="greet-message" class="greet-message"></p>
+      </section>
+      <section>
+        <!-- Elfsight Calculator | Untitled Calculator -->
+        <script src="https://elfsightcdn.com/platform.js" async></script>
+        <div class="elfsight-app-75b01f78-99fa-45c8-8602-f3cbb210e1eb" data-elfsight-app-lazy></div>
+      </section>
+
+      <section id="about" class="about">
+        <h2>About</h2>
+        <p>Purpose: Used by health professionals to quickly identify potential weight-related health risks, such as heart disease and type 2 diabetes.</p>
+        <p>.<iframe width="560" height="315" src="https://www.youtube.com/embed/yBvJXMduo8k?si=fCq9Kdzvsdpg3Uzz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      <section id="contact" class="contact">
+        <h2>Contact</h2>
+        <form id="contact-form">
+          <input type="text" id="Email Address" placeholder="Your Email Address" required />
+          <button type="submit">Send</button>
+        </form>
+        <p id="form-response" class="form-response"></p>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Minkz. All rights reserved.</p>
+    </footer>
+
+    <script src="/script.js"></script>
+  </body>
+</html>

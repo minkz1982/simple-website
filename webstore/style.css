@@ -1,0 +1,144 @@
+/* 🌌 Background */
+body {
+  background: #90fe92;
+  color: #86fe9e;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* 🟣 Neon Card */
+.neon-calc {
+  background: #111118;
+  border-radius: 20px;
+  border: 1px solid #7b3fe4;
+  box-shadow: 0 0 20px rgba(123,63,228,0.6);
+}
+
+/* Labels */
+label {
+  color: #aaaaaa;
+  font-size: 14px;
+}
+
+/* Inputs */
+.form-control, .form-select {
+  background: #0f0f15;
+  border: 1px solid #7b3fe4;
+  color: white;
+  border-radius: 10px;
+}
+
+.form-control:focus, .form-select:focus {
+  box-shadow: 0 0 10px #7b3fe4;
+  border-color: #7b3fe4;
+}
+
+/* Dropdown fix */
+option {
+  color: black;
+}
+
+/* Checkbox */
+.form-check-input {
+  background-color: #0f0f15;
+  border: 1px solid #7b3fe4;
+}
+
+/* Total */
+.total-box {
+  text-align: right;
+}
+
+.total-box h2 {
+  font-weight: bold;
+  color: #9b6cff;
+}
+
+/* Glow text */
+.glow {
+  color: #9b6cff;
+  text-shadow: 0 0 10px #9b6cff;
+}
+
+/* Divider */
+hr {
+  border-color: #7b3fe4;
+}
+/* 🔥 Neon calculator */
+.neon-calc {
+  background: #111118;
+  border-radius: 20px;
+  border: 1px solid #7b3fe4;
+  box-shadow: 0 0 20px rgba(123,63,228,0.6);
+  color: white;
+}
+
+.neon-calc label {
+  color: #aaa;
+  font-size: 14px;
+}
+
+.neon-calc .form-control,
+.neon-calc .form-select {
+  background: #0f0f15;
+  border: 1px solid #7b3fe4;
+  color: white;
+}
+
+.neon-calc .form-control:focus,
+.neon-calc .form-select:focus {
+  box-shadow: 0 0 10px #7b3fe4;
+}
+
+.total-box {
+  text-align: right;
+}
+
+.total-box h2 {
+  color: #9b6cff;
+}
+.neon-calc {
+  border: 2px solid #7b3fe4; /* purple border */
+}
+/* 🔥 OUTER BOX (THIS WAS MISSING VISUALLY) */
+.calc-box {
+  max-width: 520px;
+  margin: 20px auto;
+  padding: 12px;
+
+  background: #1a1a25; /* darker so it shows */
+  border-radius: 20px;
+
+  border: 2px solid #7b3fe4; /* visible border */
+
+  box-shadow:
+    0 0 15px rgba(123,63,228,0.4),
+    0 20px 60px rgba(0,0,0,0.7);
+}
+
+/* INNER PANEL */
+.neon-calc {
+  background: #111118;
+  border-radius: 15px;
+}
+
+/* text */
+.neon-calc label {
+  color: #aaa;
+}
+
+/* inputs */
+.neon-calc .form-control,
+.neon-calc .form-select {
+  background: #0f0f15;
+  border: 1px solid #7b3fe4;
+  color: white;
+}
+
+/* total */
+.total-box {
+  text-align: right;
+}
+
+.total-box h2 {
+  color: #9b6cff;
+}

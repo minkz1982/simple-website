@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RBX Shop | Official Catalog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #0f1014; color: #ffffff; font-family: 'Inter', sans-serif; }
+        .navbar { background: #16171d; border-bottom: 1px solid #2d2e37; }
+        
+        /* Category Sections */
+        .market-nav { background: #16171d; border-bottom: 1px solid #2d2e37; position: sticky; top: 0; z-index: 1000; }
+        .nav-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 15px 0; scrollbar-width: none; }
+        .nav-scroll::-webkit-scrollbar { display: none; }
+
+        .cat-group-label { font-size: 0.7rem; color: #6c5ce7; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        
+        .btn-filter { 
+            background: #23242a; border: 1px solid #2d2e37; color: #a1a1a6; 
+            border-radius: 8px; padding: 8px 18px; font-size: 0.85rem; transition: 0.2s; white-space: nowrap;
+        }
+        .btn-filter:hover { border-color: #6c5ce7; color: white; }
+        .btn-filter.active { background: #6c5ce7; color: white; border-color: #6c5ce7; box-shadow: 0 0 10px rgba(108, 92, 231, 0.3); }
+
+        /* Item Display */
+        .item-card { background: #16171d; border-radius: 12px; border: 1px solid #2d2e37; transition: 0.25s; cursor: pointer; height: 100%; }
+        .item-card:hover { border-color: #6c5ce7; transform: translateY(-4px); }
+        .img-box { background: #1c1d24; border-radius: 10px; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .price-row { color: #00ffa3; font-weight: bold; font-size: 0.9rem; display: flex; align-items: center; gap: 4px; }
+        .creator { font-size: 0.7rem; color: #72737a; }
+    </style>
+</head>
+<body>
+
+<div class="market-nav">
+    <div class="container">
+        <div class="nav-scroll">
+            <div>
+                <span class="cat-group-label">Featured</span>
+                <button class="btn-filter active" data-cat="11" data-sub="19">All UGC</button>
+            </div>
+            
+            <div>
+                <span class="cat-group-label">Body</span>
+                <button class="btn-filter" data-cat="1" data-sub="17">Heads</button>
+                <button class="btn-filter" data-cat="11" data-sub="20">Hair</button>
+            </div>
+
+            <div>
+                <span class="cat-group-label">Accessories</span>
+                <div class="d-flex gap-2">
+                    <button class="btn-filter" data-cat="11" data-sub="10">Face</button>
+                    <button class="btn-filter" data-cat="11" data-sub="12">Neck</button>
+                    <button class="btn-filter" data-cat="11" data-sub="13">Shoulder</button>
+                    <button class="btn-filter" data-cat="11" data-sub="14">Front</button>
+                    <button class="btn-filter" data-cat="11" data-sub="15">Back</button>
+                    <button class="btn-filter" data-cat="11" data-sub="16">Waist</button>
+                </div>
+            </div>
+
+            <div>
+                <span class="cat-group-label">Clothing</span>
+                <div class="d-flex gap-2">
+                    <button class="btn-filter" data-cat="3" data-sub="1">Shirts</button>
+                    <button class="btn-filter" data-cat="3" data-sub="2">Pants</button>
+                    <button class="btn-filter" data-cat="11" data-sub="5">T-Shirts</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row g-3" id="catalog"></div>
+    
+    <div id="loading" class="text-center py-5">
+        <div class="spinner-border text-primary"></div>
+        <p class="text-muted mt-2">Loading Items...</p>
+    </div>
+
+    <div class="text-center my-5">
+        <button id="loadMore" class="btn btn-primary px-5 rounded-pill" style="display:none;">Load More</button>
+    </div>
+</div>
+
+<script>
+    let currentCat = 11;
+    let currentSub = 19;
+    let cursor = "";
+    let isFetching = false;
+
+    async function fetchMarket(isNew = false) {
+        if (isFetching) return;
+        isFetching = true;
+
+        const container = document.getElementById('catalog');
+        const loader = document.getElementById('loading');
+        const loadBtn = document.getElementById('loadMore');
+
+        if (isNew) { container.innerHTML = ""; cursor = ""; }
+        loader.style.display = "block";
+        loadBtn.style.display = "none";
+
+        // API Call
+        const url = `https://catalog.roproxy.com/v1/search/items/details?Category=${currentCat}&Subcategory=${currentSub}&Limit=24&CreatorType=1${cursor ? '&Cursor='+cursor : ''}`;
+
+        try {
+            const res = await fetch(url);
+            const json = await res.json();
+            
+            if (!json.data || json.data.length === 0) {
+                container.innerHTML = `<div class="col-12 text-center py-5">No items found.</div>`;
+            } else {
+                cursor = json.nextPageCursor || "";
+                
+                // Get Thumbnails
+                const ids = json.data.map(i => i.id).join(',');
+                const tRes = await fetch(`https://thumbnails.roproxy.com/v1/assets?assetIds=${ids}&size=420x420&format=Png`);
+                const tJson = await tRes.json();
+
+                json.data.forEach(item => {
+                    const thumb = tJson.data.find(t => t.targetId === item.id)?.imageUrl || "";
+                    const price = item.price ? `<img src="https://tr.rbxcdn.com/1814543f588c499c30f9e7166624c90e/420/420/Image/Png" width="14"> ${item.price}` : "Offsale";
+                    
+                    const col = document.createElement('div');
+                    col.className = 'col-6 col-md-4 col-lg-2';
+                    col.innerHTML = `
+                        <div class="item-card p-2" onclick="window.open('https://www.roblox.com/catalog/${item.id}')">
+                            <div class="img-box mb-2">
+                                <img src="${thumb}" class="w-100" loading="lazy">
+                            </div>
+                            <div class="px-1">
+                                <div class="text-truncate small fw-bold mb-1">${item.name}</div>
+                                <div class="creator text-truncate mb-1">by ${item.creatorName}</div>
+                                <div class="price-row">${price}</div>
+                            </div>
+                        </div>`;
+                    container.appendChild(col);
+                });
+            }
+            loadBtn.style.display = cursor ? "inline-block" : "none";
+        } catch (e) {
+            console.error("Rate limit hit");
+        } finally {
+            isFetching = false;
+            loader.style.display = "none";
+        }
+    }
+
+    document.querySelectorAll('.btn-filter').forEach(btn => {
+        btn.onclick = function() {
+            document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentCat = this.dataset.cat;
+            currentSub = this.dataset.sub;
+            fetchMarket(true);
+        };
+    });
+
+    document.getElementById('loadMore').onclick = fetchMarket;
+    fetchMarket();
+</script>
+</body>
+</html>
